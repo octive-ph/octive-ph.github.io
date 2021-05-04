@@ -6,7 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Messenger Test</title>
   </head>
-  <body></body>
+  <body>
+    <form>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" />
+      <button type="submit">Submit</button>
+      <div
+        class="fb-messenger-checkbox"
+        origin="https://www.facebook.com/octiveph"
+        page_id="107994064780872"
+        messenger_app_id="613243786739870"
+        user_ref=""
+        allow_login="true"
+        size="standard"
+        skin="dark"
+        center_align="true"
+      ></div>
+    </form>
+
+    <!-- Your Chat Plugin code -->
+    <div
+      class="fb-customerchat"
+      attribution="setup_tool"
+      page_id="107994064780872"
+    ></div>
+  </body>
   <!-- Load Facebook SDK for JavaScript -->
   <div id="fb-root"></div>
   <script>
@@ -26,12 +52,21 @@
       js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
       fjs.parentNode.insertBefore(js, fjs);
     })(document, "script", "facebook-jssdk");
-  </script>
 
-  <!-- Your Chat Plugin code -->
-  <div
-    class="fb-customerchat"
-    attribution="setup_tool"
-    page_id="107994064780872"
-  ></div>
+    FB.Event.subscribe("messenger_checkbox", function (e) {
+      console.log("messenger_checkbox event");
+      console.log(e);
+
+      if (e.event == "rendered") {
+        console.log("Plugin was rendered");
+      } else if (e.event == "checkbox") {
+        var checkboxState = e.state;
+        console.log("Checkbox state: " + checkboxState);
+      } else if (e.event == "not_you") {
+        console.log("User clicked 'not you'");
+      } else if (e.event == "hidden") {
+        console.log("Plugin was hidden");
+      }
+    });
+  </script>
 </html>
